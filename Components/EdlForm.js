@@ -1,9 +1,52 @@
 import React from 'react'
-import {View,TextInput,Button,RadioForm} from 'react-native'
+import {View,TextInput,Button} from 'react-native'
+import globalStyles from '../styles/globalStyles'
 import {Formik} from 'formik'
 
+
+export default function edlForm(){
+return(
+  <View style={globalStyles.container}>
+    <Formik
+    initialValues={{estateState:'',description:''}}
+    onSubmit={(values)=>{
+addEdl
+    }
+  }
+    >
+{(props)=>(
+  <View style={{flex:1}}>
+    <TextInput
+    style={globalStyles.input}
+    placeholder='edlForm estateState'
+    onChangeText={props.handleChange('estateState')}
+    value={props.values.estateState}
+    />
+     
+     <TextInput
+    style={globalStyles.input}
+    placeholder='edlForm description'
+    onChangeText={props.handleChange('description')}
+    value={props.values.description}
+    />
+    <Button
+    title='submit'
+    color='maroon'
+    onPress={props.handleSubmit}
+    />
+  </View>
+)}
+    </Formik>
+  </View>
+)
+}
+
+
+
+
+
 /*let EdlFormGen = props => {
-  const { handleSubmit } = props*/
+  const { handleSubmit } = props
   function Form(){
 
   
@@ -27,10 +70,10 @@ return <View >
       </View>
 }
 
-/*
+
 EdlFormGen = reduxForm({
   // a unique name for the form
   form: 'edl'
-})(EdlFormGen)*/
+})(EdlFormGen)
 
-export default Form
+export default Form*/

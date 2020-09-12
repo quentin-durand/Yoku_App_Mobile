@@ -6,11 +6,14 @@ import { render } from 'react-dom';
 function edlRoom({ route, navigation }) {
   const { idEstate } = route.params;
   const [id, setId] = useState(idEstate);
-  const [rooms, setRooms] = useState({});
+  const [rooms, setRooms] = useState({rooms:[]});
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState();
+const [edl,setEdl]=useState([{}])
 
-
+const addEDL = (edl)=>{
+  setEdl
+}
 
   async function fetchData() {
     const res = await fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/findRoom/?E_Id=' + id, {
@@ -49,9 +52,10 @@ function edlRoom({ route, navigation }) {
 
 
        rooms.rooms.map((room) =>
-          < Text key={room.E_Id}>test
-            {room.M_EstateValue}
+          < Text key={room.E_Id}>
+           {room.M_EstateValue} 
           </Text>
+         
 
         )
 

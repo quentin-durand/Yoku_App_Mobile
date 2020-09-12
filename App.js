@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import edlRoom from './Components/EDL'
 import SelectEdiEstate from './Components/SelectEdlEstate'
 import findRoom from './Components/navigateTest'
+import edlForm from './Components/EdlForm'
 const suck='it\'s sucks'
 function HomeScreen({navigation}) {
   return (
@@ -26,10 +27,14 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="findRoom">
-        <Stack.Screen 
+      <Stack.Navigator initialRouteName="SelectEdiEstate">
+      <Stack.Screen 
         name="SelectEdiEstate"
         component={SelectEdiEstate}
+         />
+        <Stack.Screen 
+        name="Form"
+        component={edlForm}
          />
         <Stack.Screen 
         name="Edl" 

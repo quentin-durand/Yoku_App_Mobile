@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { View, TextInput,Button } from 'react-native'
+import { View, TextInput } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import edlTest from './navigateTest'
+import edlTest from './navigateTest';
+import styles from '../styles/globalStyles';
+import { Button } from 'react-native-paper';
 
 function SelectEdiEstate({navigation}) {
-    const[idEstate,setIdEstate]=useState(1);
+    const[idEstate,setIdEstate]=useState();
     return (
         <View>
         <TextInput
@@ -15,13 +17,14 @@ function SelectEdiEstate({navigation}) {
             type="input"
             onChangeText={(text) => setIdEstate(text)}
             value={idEstate}
+            placeholder='Saississez la référence du bien'
         />
 
         <Button
-            title="rechercher un bien"
+            title="accéder à votre EDL"
             onPress={() => navigation.navigate('Edl',{idEstate:idEstate})}
-            
-        />
+            style={{backgroundColor:'#364156'}}
+        >accéder à votre EDL</Button>
     </View>
     );
   }

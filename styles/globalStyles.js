@@ -3,7 +3,7 @@ const { BorderClear, BorderColor } = require("@material-ui/icons");
 import React from 'react'
 
 
-const globalStyles ={
+const styles ={
     container:{
         flex:1,
         padding:10,
@@ -16,6 +16,9 @@ const globalStyles ={
     fontSize:18,
     borderRadius:6,
 
+},
+button:{
+    backgroundColor:'#364156',
 }
 }
-export default globalStyles
+export default styles

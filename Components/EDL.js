@@ -1,19 +1,17 @@
-import React, { Component, useState, useEffect } from 'react'
-import { View, Text, FlatList } from 'react-native';
-import { render } from 'react-dom';
+import React, { useState, useEffect } from 'react'
+import { Text, View,Button } from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import {Divider, TextInput,Title} from 'react-native-paper'
+import styles from '../styles/globalStyles'
 
-
-function edlRoom({ route, navigation }) {
+export default function edlRoom({ route }) {
   const { idEstate } = route.params;
+ // const [error, setError] = useState();
+  const [rooms, setRooms] = useState({ rooms: [] });
   const [id, setId] = useState(idEstate);
-  const [rooms, setRooms] = useState({rooms:[]});
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState();
-const [edl,setEdl]=useState([{}])
-
-const addEDL = (edl)=>{
-  setEdl
-}
+  const {control,handleSubmit,errors,register} = useForm();
+  const onSubmit = data => fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/formCreate/store/'+data);
+console.log('errors',errors);
 
   async function fetchData() {
     const res = await fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/findRoom/?E_Id=' + id, {
@@ -21,112 +19,84 @@ const addEDL = (edl)=>{
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
-
       }
-
-
     });
     res
       .json()
       .then(res => {
-        setIsLoaded(true);
+
         setRooms(res);
       })
-      .catch(err => {
-        setIsLoaded(true);
+     /* .catch(err => {
+
         setError(err);
-      })
-    }
-    useEffect(()=>{
-      fetchData();
-    });
+      })*/
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  return (
+    <View>
+
+      {rooms.rooms.map((room) => {
+      const str=room.M_EstateKey
+const keyRoom=str.substring(11);
+        const nameGen='EDLE_' + keyRoom + '_ETAT_GENERAL';
+        const nameDesc='EDLE_' + keyRoom + '_ETAT_DESC';
+        return (
+          
+          <View>
+          <Title>{room.M_EstateValue}</Title>
+          <Controller
+        control={control}
+        name={nameGen}
+        ref={register}
+        rules={{ required: true }}
+        defaultValue=""
+        render={({ onChange, onBlur, value }) => (
+          <TextInput
+          label='Etat Général'
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            value={value}
+            
+          />
+        )}
+      />
     
-    if (error) {
-      return <Text>Erreur : {error.message};</Text>
-    } else if (!isLoaded) {
-      return <Text>Chargement…</Text>;
-    } else {
-
-      return (
-
-
-
-       rooms.rooms.map((room) =>
-          < Text key={room.E_Id}>
-           {room.M_EstateValue} 
-          </Text>
-         
-
-        )
-
-      )
-    }
-
-  }
-  /*
-  class edlRoom extends Component{
-  
-  constructor(props){
-    super(props)
-  
-  }
-  
-  async componentDidMount(){
-    const param = '1';
-    await fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/findRoom/?E_Id='+ param , {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-       
-      }
+      {errors[nameGen] && <Text>This is required.</Text>}
       
-    
-    })
-        .then((response) =>
-          response.json()
-          )
-        .then(
-          (data) => {
-            this.setState({
-              isLoaded: true,
-              rooms: data,
-             
-            });
-          })
-         .catch(
-  (error) => {
-            this.setState({
-              isLoaded: true,
-              error
-            });
-          })
+      <Controller
+        control={control}
         
-  
-        }
-   
-    
-  
-      render() {
-        const { error, isLoaded, rooms } = this.state;
-        console.log(rooms);
-        if (error) {
-          return <Text>Erreur : {error.message};</Text>
-        } else if (!isLoaded) {
-          return <Text>Chargement…</Text>;
-        } else {
-         
-          return (
-            rooms.rooms.map((room)=>
-          < Text key={room.E_Id}>
-          {room.M_EstateValue}
-      </Text>
-           
-          ))
-        }
+        render={({ onChange, onBlur, value }) => (
+          <TextInput
+          label='Description'
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            value={value}
+            
+            
+          />
+        )}
+        ref={register({ required: 'this is required', maxLength: 20 })}
+        name={nameDesc}
+        defaultValue=""
+      />{errors[nameGen] && <Text>This is required.</Text>}
+     <Divider/>
+          </View>
+          
+        )
       }
-    }*/
-
-  
-
-  export default edlRoom
+      )
+      }
+      <View>
+      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      </View>
+      
+    </View>
+  );
+}

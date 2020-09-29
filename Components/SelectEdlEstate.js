@@ -22,8 +22,10 @@ function SelectEdiEstate({navigation}) {
 
         <Button
             title="accéder à votre EDL"
+            color={'#dff8eb'}
             onPress={() => navigation.navigate('Edl',{idEstate:idEstate})}
-            style={{backgroundColor:'#364156',color:'#dff8eb',}}
+            style={{backgroundColor:'#364156'}}
+            
         >accéder à votre EDL</Button>
     </View>
     );

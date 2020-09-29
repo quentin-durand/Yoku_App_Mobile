@@ -35,9 +35,10 @@ export default function edlRoom({ route }) {
   const onSubmit = data => {
     data.E_Id = id;
     fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/formCreate', {
-      method: 'POST',
+      method: 'post',
       headers: {
         Accept: 'application/json',
+        'Content-Type':'application/json'
       },
       body: JSON.stringify(data),
     });
@@ -108,9 +109,10 @@ export default function edlRoom({ route }) {
       <View>
         <Button
           title="submit"
+          color={'#dff8eb'}
           onPress={handleSubmit(onSubmit)}
-          style={{ backgroundColor: '#364156', color: '#dff8eb', }}
-        >Submit</Button>
+          style={{ backgroundColor: '#364156'}}
+        >Valider EDL</Button>
       </View>
 
     </View>

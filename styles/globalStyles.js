@@ -19,6 +19,7 @@ const styles ={
 },
 button:{
     backgroundColor:'#364156',
+    color:'#dff8eb',
 }
 }
 export default styles

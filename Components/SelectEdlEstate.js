@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { View, TextInput } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import edlTest from './navigateTest';
-import styles from '../styles/globalStyles';
 import { Button } from 'react-native-paper';
-
+/*
+fonction permettant d'accéder au formulaire d'un bien ;
+    - On saisit une référence d'un bien dans un champ text
+    - On envoie la donnée vers le composant EDL en cliquant sur le bouton
+*/ 
 function SelectEdiEstate({navigation}) {
     const[idEstate,setIdEstate]=useState();
     return (
@@ -23,7 +23,7 @@ function SelectEdiEstate({navigation}) {
         <Button
             title="accéder à votre EDL"
             onPress={() => navigation.navigate('Edl',{idEstate:idEstate})}
-            style={{backgroundColor:'#364156'}}
+            style={{backgroundColor:'#364156',color:'#dff8eb',}}
         >accéder à votre EDL</Button>
     </View>
     );

@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { Divider, TextInput, Title, Button, HelperText } from 'react-native-paper'
+import { Divider, TextInput, Title, Button, HelperText, Snackbar  } from 'react-native-paper'
 import styles from '../styles/globalStyles'
 import { TextField } from '@material-ui/core';
 
 export default function edlRoom({ route }) {
 
   /*on récupère la référence du bien transmis via la route*/
-  const { idEstate } = route.params;
+  const { refEstate } = route.params;
 
   /* on donne une valeur à notre state afin de l'utiliser pour notre fetch*/
-  const [id, setId] = useState(idEstate);
+  const [ref, setRef] = useState(refEstate);
 
   /*on défini un state qui nous permettra  de récupèrer les infos des dfifférentes pièces*/
   const [rooms, setRooms] = useState({ rooms: [] });
+
+  /*on défini un state qui nous permettra  de récupèrer l'id nécessaire à l'entrée des données edle*/
+  const[id,setId]=useState({id:id});
 
   /*on crée un state que l'on défini afin de gérer le statut en erreur des input (infos/errors) */
   const [inputType, setInputType] = useState('info')
@@ -31,10 +34,14 @@ export default function edlRoom({ route }) {
   /*const onSubmit = data=>{data.E_Id=id;
   console.log(data);};*/
 
-  /*cette constante permet l'envoi des données validées vers l'api afin de les enregistrer dans la base de données*/
+
+
+  /*cette constante permet l'envoi des données validées vers l'api afin de les enregistrer dans la base de données puis de générer un pdf*/
   const onSubmit = data => {
-    data.E_Id = id;
-    fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/formCreate', {
+    /*on ajoute l'id et la référence du bien avant de fetch les données récoltées dans le formulaire*/
+    data.E_Id = id['id'];
+    data.E_Ref = refEstate;
+  fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/edle', {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -42,15 +49,17 @@ export default function edlRoom({ route }) {
       },
       body: JSON.stringify(data),
     });
+ 
   }
 
   /* fonction permettant l'affichage des données de chaque pièce en fonction de la référence du bien transmise depuis la page SelectEdlEstate */
   async function fetchData() {
-    const res = await fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/showEdle/?E_Id=' + id, {
+    const res = await fetch('http://api.yoku.cda2.lh.manusien-ecolelamanu.fr/api/showEdle/?E_Ref=' + ref, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'http://localhost:19006',
       }
       
     });
@@ -59,6 +68,7 @@ export default function edlRoom({ route }) {
       .then(res => {
 
         setRooms(res);
+        setId(res);
       })
     .catch(err => {
 
@@ -113,8 +123,10 @@ export default function edlRoom({ route }) {
           onPress={handleSubmit(onSubmit)}
           style={{ backgroundColor: '#364156'}}
         >Valider EDL</Button>
+      
       </View>
 
     </View>
   );
 }
+

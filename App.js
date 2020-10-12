@@ -2,10 +2,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import edlRoom from './Components/EDL'
-import SelectEdiEstate from './Components/SelectEdlEstate'
+import SelectRefEstate from './Components/SelectEdlEstate'
 import edlForm from './Components/EdlForm'
 import Cam from './Components/camera'
 import Home from './Components/Home'
+import snack from './Components/snackbar'
 
 
 
@@ -14,7 +15,7 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SelectEdiEstate">
+      <Stack.Navigator initialRouteName="SelectRefEstate">
       <Stack.Screen 
         name="Home"
         component={Home}
@@ -30,8 +31,8 @@ function App() {
         }}
          />
       <Stack.Screen 
-        name="SelectEdiEstate"
-        component={SelectEdiEstate}
+        name="SelectRefEstate"
+        component={SelectRefEstate}
         options={{
           title:'Etat des lieux',
           headerStyle: {
@@ -64,6 +65,9 @@ function App() {
         <Stack.Screen 
         name="Cam" 
         component={Cam} />
+          <Stack.Screen 
+        name="snack" 
+        component={snack} />
     
       </Stack.Navigator>
     </NavigationContainer>

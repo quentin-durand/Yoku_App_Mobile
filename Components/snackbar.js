@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Snackbar } from 'react-native-paper';
 
-const snack = () => {
+const snack = ({navigation}) => {
   const [visible, setVisible] = React.useState(false);
 
   const onToggleSnackBar = () => setVisible(!visible);
@@ -15,13 +15,9 @@ const snack = () => {
       <Snackbar
       style={styles.snackbarSuccess}
         visible={visible}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: 'Undo',
-          onPress: () => {
-            // Do something
-          },
-        }}>
+        onDismiss={()=>{onDismissSnackBar;navigation.navigate('SelectRefEstate');}}
+        duration={1080}
+       >
         Hey there! I'm a Snackbar.
       </Snackbar>
     </View>

@@ -1,4 +1,4 @@
-const { BorderClear, BorderColor } = require("@material-ui/icons");
+const { BorderClear, BorderColor, FormatBold } = require("@material-ui/icons");
 
 import React from 'react'
 
@@ -17,9 +17,21 @@ const styles ={
     borderRadius:6,
 
 },
+title:{
+color:'#364156',
+fontWeight:'bold',
+},
 button:{
     backgroundColor:'#364156',
     color:'#dff8eb',
-}
+},
+container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    
+  },
+  snackbarSuccess:{
+    backgroundColor:'green',
+  }
 }
 export default styles

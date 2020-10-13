@@ -8,9 +8,6 @@ import { TextField } from '@material-ui/core';
 export default function edlRoom() {
 
 
-
-
-
     return(
         <View>
 <Text>test</Text>

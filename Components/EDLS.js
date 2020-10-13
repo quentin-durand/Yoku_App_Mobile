@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View,Stylesheet } from "react-native";
+import { Text, View } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Divider, TextInput, Title, Button, HelperText, Snackbar  } from 'react-native-paper'
 import styles from '../styles/globalStyles'
 
 
-export default function edlRoom({ route,navigation }) {
+export default function edls({ route }) {
 
   /*on récupère la référence du bien transmis via la route*/
   const { refEstate } = route.params;
@@ -33,11 +33,7 @@ export default function edlRoom({ route,navigation }) {
   const { control, handleSubmit, errors, register } = useForm();
   /*const onSubmit = data=>{data.E_Id=id;
   console.log(data);};*/
-  const [visible, setVisible] = React.useState(false);
 
-  const onToggleSnackBar = () => setVisible(!visible);
-
-  const onDismissSnackBar = () => setVisible(false);
 
 
   /*cette constante permet l'envoi des données validées vers l'api afin de les enregistrer dans la base de données puis de générer un pdf*/
@@ -53,14 +49,7 @@ export default function edlRoom({ route,navigation }) {
         'Content-Type':'application/json'
       },
       body: JSON.stringify(data),
-    }).then((response)=> {
-      if(response.ok) {
-        onToggleSnackBar()
-      }else{
-   
-      }
-    }
-    )
+    });
  
   }
 
@@ -99,12 +88,12 @@ export default function edlRoom({ route,navigation }) {
 
       {rooms.rooms.map((room) => {
         const str = room.M_EstateKey
-        const title=str.split('_');
-        const labelEND=title[3];
+        const test=str.split('_');
+        const labelEND=test[3];
 
         return (
           <View>
-            <Title style={styles.title}>{labelEND=='DESC' ?'':title[1]}</Title>
+            <Title>{labelEND=='DESC' ?'':test[1]}</Title>
             
             <View>
               <Controller as={TextInput}
@@ -115,7 +104,7 @@ export default function edlRoom({ route,navigation }) {
                 defaultValue={room.M_EstateValue = null ? "" : room.M_EstateValue}
                 type={inputType}
                 style={styles.input}
-                label={title[3]=='DESC' ? 'Description':'Etat général'}
+                label={test[3]=='DESC' ? 'Description':'Etat général'}
               />
               <HelperText type="error" visible={hasErrors()}>
                 {errors[str] && errors[str].type === "required" && <Text>This is required.</Text>}
@@ -135,19 +124,10 @@ export default function edlRoom({ route,navigation }) {
           onPress={handleSubmit(onSubmit)}
           style={{ backgroundColor: '#364156'}}
         >Valider EDL</Button>
-         <Snackbar
-      style={styles.snackbarSuccess}
-        visible={visible}
-        onDismiss={()=>{onDismissSnackBar;navigation.navigate('SelectRefEstate');}}
-        duration={1560}
-       >
-        votre EDLE c'est bien enregistré.
-      </Snackbar>
       
       </View>
-   
+
     </View>
   );
-
-
 }
+
